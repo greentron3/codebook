@@ -1,6 +1,6 @@
 const keys = 'LEFT,RIGHT,UP,DOWN,SPACE,W,A,S,D'
-let pl, k, plats, bad
-
+let pl, k, plats, bad, c, scoreText
+let score = 0
 
 
 
@@ -10,6 +10,7 @@ function preload() {
     this.load.image('squat', './assets/squat.png')
     this.load.image('plat', './assets/platform.png')
     this.load.image('bad', './assets/devil.png')
+    this.load.image('ok', './assets/gud.png')
 }
 
 function create() {
@@ -37,6 +38,27 @@ function create() {
 
 
     k = this.input.keyboard.addKeys(keys)
+
+    let c
+    coins = this.physics.add.group()
+
+    c = coins.create(40,40, 'ok')
+    c.setCollideWorldBounds(true)
+     c.setGravityY(900)
+
+     c = coins.create(600,40, 'ok')
+     c.setCollideWorldBounds(true)
+     c.setGravityY(900)
+
+function pickUp (pl,coin) {
+    coin.destroy()
+    score += 10
+    scoreText.setText('Score: ' + score)
+}
+
+      this.physics.add.collider(pl,bad)
+      this.physics.add.collider(pl,coins, pickUp)
+      scoreText = this.add.text(16,16, 'score: 0', {fontSize: '32px', fill: '##4d5563'}  )
 }
 
 function update() {
